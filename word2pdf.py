@@ -43,9 +43,9 @@ def convert_folder(input_folder):
         try:
             print(f"Converting: {word_file.name} -> {pdf_file.name}")
             convert(str(word_file), str(pdf_file))
-            print(f"  ✓ Success")
+            print(f"  [OK] Success")
         except Exception as e:
-            print(f"  ✗ Failed: {e}")
+            print(f"  [FAIL] Error: {e}")
 
     print("\nConversion complete!")
 
