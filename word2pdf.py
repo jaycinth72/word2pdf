@@ -8,6 +8,25 @@ import os
 import sys
 from pathlib import Path
 from docx2pdf import convert
+import fitz  # PyMuPDF
+
+
+def create_thumbnail(pdf_path, jpg_path):
+    """
+    Create a JPG image of the first page of a PDF
+
+    Args:
+        pdf_path: Path to the PDF file
+        jpg_path: Path where the JPG should be saved
+    """
+    pdf_document = fitz.open(pdf_path)
+    first_page = pdf_document[0]
+
+    # Render page to an image (matrix for resolution, 2.0 = 2x resolution)
+    pix = first_page.get_pixmap(matrix=fitz.Matrix(2.0, 2.0))
+    pix.save(jpg_path)
+
+    pdf_document.close()
 
 
 def convert_folder(input_folder):
@@ -39,11 +58,18 @@ def convert_folder(input_folder):
     # Convert each file
     for word_file in word_files:
         pdf_file = word_file.with_suffix('.pdf')
+        jpg_file = word_file.with_suffix('.jpg')
 
         try:
             print(f"Converting: {word_file.name} -> {pdf_file.name}")
             convert(str(word_file), str(pdf_file))
-            print(f"  [OK] Success")
+            print(f"  [OK] PDF created")
+
+            # Create thumbnail
+            print(f"Creating thumbnail: {jpg_file.name}")
+            create_thumbnail(str(pdf_file), str(jpg_file))
+            print(f"  [OK] Thumbnail created")
+
         except Exception as e:
             print(f"  [FAIL] Error: {e}")
 

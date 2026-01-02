@@ -33,9 +33,14 @@ This will convert all `.doc` and `.docx` files in the specified folder to PDF fo
 
 - Converts both `.doc` and `.docx` files
 - Preserves original filenames (changes extension to `.pdf`)
+- Automatically creates JPG thumbnails of the first page
 - Shows progress for each file
 - Error handling for individual files (continues on failure)
 
 ## Output
 
-PDFs are saved in the same folder as the source Word documents.
+For each Word document, the script creates:
+- A PDF file with the same base filename (e.g., `document.pdf`)
+- A JPG image of the first page (e.g., `document.jpg`)
+
+All files are saved in the same folder as the source Word documents.
